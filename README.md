@@ -5,3 +5,6 @@ Basic HTML, CSS, and JavaScript calculator create to learn JavaScript Basics suc
 - variables / arrays / objects
 - basic functions
 - converting data types
+- conditional statements
+- Boolean values and operators
+

@@ -2,65 +2,80 @@ const defaultResult = 0;
 let currentResult = defaultResult;
 let logEnteries = [];
 
-
-
-
 // Gets inout from iput field
 function getUserInput() {
-    return parseInt(userInput.value);
+  return parseInt(userInput.value);
 }
 
-// Generate and writes calculation log 
-function createAnWriteLog(operator,resultBeforeCalc,calcNumber) {
-    const calcDescription = `${resultBeforeCalc} ${operator} ${calcNumber}`;
-    outputResult(currentResult, calcDescription); // from vendor file
+// Generate and writes calculation log
+function createAnWriteLog(operator, resultBeforeCalc, calcNumber) {
+  const calcDescription = `${resultBeforeCalc} ${operator} ${calcNumber}`;
+  outputResult(currentResult, calcDescription); // from vendor file
 }
-function writeToLog(operationIdentifer, prevResults, OperationNumber, newResult) {
-    
-    const logEntry = {
-        operation: operationIdentifer,
-        prevResult: prevResults,
-        number: OperationNumber,
-        result: newResult
-    };
-    logEnteries.push(logEntry);
-    console.log(logEnteries);
+function writeToLog(
+  operationIdentifer,
+  prevResults,
+  OperationNumber,
+  newResult
+) {
+  const logEntry = {
+    operation: operationIdentifer,
+    prevResult: prevResults,
+    number: OperationNumber,
+    result: newResult,
+  };
+  logEnteries.push(logEntry);
+  console.log(logEnteries);
+}
+function calculateResult(calculationType) {
+  const enteredNumber = getUserInput();
+  if (
+    (calculationType !== "ADD" &&
+      calculationType !== "SUBTRACT" &&
+      calculationType !== "Multiply" &&
+      calculationType !== "Divide") ||
+      !enteredNumber
+  ) {
+    return;
+  }
+
+  
+  const initialResult = currentResult;
+  let mathOperator;
+  if (calculationType === "ADD") {
+    currentResult += enteredNumber;
+    mathOperator = "+";
+  } else if (calculationType === "SUBTRACT") {
+    currentResult -= enteredNumber;
+    mathOperator = "-";
+  } else if (calculationType === "Multiply") {
+    currentResult *= enteredNumber;
+    mathOperator = "*";
+  } else if (calculationType === "Divide") {
+    currentResult /= enteredNumber;
+    mathOperator = "/";
+  }
+
+  createAnWriteLog(mathOperator, initialResult, enteredNumber);
+  writeToLog(calculationType, initialResult, enteredNumber, currentResult);
 }
 
 function add() {
-    const enteredNumber = getUserInput();
-    const initialResult = currentResult;
-    currentResult += enteredNumber;
-    createAnWriteLog('+', initialResult,enteredNumber);
-    writeToLog('ADD', initialResult, enteredNumber, currentResult);
+  calculateResult("ADD");
 }
 
 function subtract() {
-    const enteredNumber = getUserInput();
-    const initialResult = currentResult;
-    currentResult -= enteredNumber;
-    createAnWriteLog('-', initialResult,enteredNumber);
-    writeToLog('Subtract', initialResult, enteredNumber, currentResult);
-
+  calculateResult("SUBTRACT");
 }
 
 function multiply() {
-    const enteredNumber = getUserInput();
-    const initialResult = currentResult;
-    currentResult *= enteredNumber;
-    createAnWriteLog('*', initialResult,enteredNumber);
-    writeToLog('Multiply', initialResult, enteredNumber, currentResult);
+  calculateResult("Multiply");
 }
-
 function divide() {
-    const enteredNumber = getUserInput();
-    const initialResult = currentResult;
-    currentResult /= enteredNumber;
-    createAnWriteLog('/', initialResult,enteredNumber);
-    writeToLog('Divide', initialResult, enteredNumber, currentResult);
+  calculateResult("Divide");
 }
 
-addBtn.addEventListener('click', add);
-subtractBtn.addEventListener('click', subtract);
-multiplyBtn.addEventListener('click', multiply);
-divideBtn.addEventListener('click',divide);
+addBtn.addEventListener("click", add);
+subtractBtn.addEventListener("click", subtract);
+multiplyBtn.addEventListener("click", multiply);
+divideBtn.addEventListener("click", divide);
